@@ -1,0 +1,24 @@
+name: ytop
+version: git
+summary:  A TUI system monitor written in Rust
+description: Another TUI based system monitor, this time in Rust!
+base: core20
+confinement: strict
+
+parts:
+  ytop:
+    plugin: rust
+    source: .
+    build-packages:
+      - libc6-dev
+    override-build: |
+      snapcraftctl build
+      cp target/release/ytop $SNAPCRAFT_PART_INSTALL/bin/
+
+apps:
+  ytop:
+    command: bin/ytop
+    plugs:
+      - hardware-observe
+      - mount-observe
+      - system-observe
